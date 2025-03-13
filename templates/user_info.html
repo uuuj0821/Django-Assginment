@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ user.이름 }}</h1>
+    <hr>
+    <ul>
+        {% for key, value in user.items %}
+            {% if key != '이름' %}
+                <li>{{ key }} : {{ value }}</li> <br>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>

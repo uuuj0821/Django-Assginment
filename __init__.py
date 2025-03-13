@@ -1,0 +1,1 @@
+# config/settings.py 에서 fake.db.py 참조용
