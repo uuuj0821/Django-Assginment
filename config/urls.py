@@ -19,6 +19,7 @@ from django.http import HttpResponse
 from django.urls import path
 from django.shortcuts import render
 import fake_db
+from todo import views
 
 def index(request):
     return HttpResponse('<h1>Hello, User</h1>')
@@ -42,4 +43,6 @@ urlpatterns = [
     path('', index),
     path('users/', user_list),
     path('users/<int:user_id>/', user_info),
+    path('todo/', views.todo_list),
+    path('todo/<int:todo_id>/', views.todo_info),
 ]
