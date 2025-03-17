@@ -40,7 +40,8 @@ DJANGO_APPS = [
 ]
 
 OWN_APPS = [
-    'todo'
+    'todo',
+    'users'
 ]
 
 THIRD_PARTY_APPS = []
@@ -129,3 +130,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# login
+LOGIN_URL = '/login'
+
+# logout
+LOGOUT_REDIRECT_URL = '/'

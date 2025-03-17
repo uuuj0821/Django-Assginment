@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path
-from django.shortcuts import render
+from django.urls import path, include
+from django.shortcuts import render, redirect
 import fake_db
 from todo import views
+from users import views as users_views
 
 def index(request):
-    return HttpResponse('<h1>Hello, User</h1>')
+    return redirect('login')
 def user_list(request):
     user_index = list(fake_db.user_db.keys())
     print(user_index)
@@ -43,6 +44,9 @@ urlpatterns = [
     path('', index),
     path('users/', user_list),
     path('users/<int:user_id>/', user_info),
-    path('todo/', views.todo_list),
-    path('todo/<int:todo_id>/', views.todo_info),
+    path('todo/', views.todo_list, name='todo_list'),
+    path('todo/<int:todo_id>/', views.todo_info, name='todo_info'),
+    path('accounts/', include("django.contrib.auth.urls")), # logout을 위한 라인
+    path('login/', users_views.login, name='login'),
+    path('signup/', users_views.signup, name='signup'),
 ]

@@ -44,13 +44,34 @@
     </style>
 </head>
 <body>
+    <nav>
+        {% if request.user.is_authenticated %}
+            <div style="text-align: right">
+                {{ request.user.username }}
+                <form action="{% url 'logout' %}" method="POST" style="display: inline">
+                    {% csrf_token %}
+                    <button>로그아웃</button>
+                </form>
+            </div>
+        {% else %}
+            <div style="text-align: right">
+                <a href="{% url 'login' %}">로그인</a>
+                <a href="{% url 'signup' %}">회원가입</a>
+            </div>
+        {% endif %}
+    </nav>
+
     <div class="container">
-        <h1>오늘의 할 일 목록</h1>
-        <ul>
-            {% for todo_list in todo_lists %}
-                <li><a href="/todo/{{ todo_list.id }}"> {{ todo_list }} </a></li>
-            {% endfor %}
-        </ul>
+        {% if request.user.is_authenticated %}
+            <h1>오늘의 할 일 목록</h1>
+            <ul>
+                {% for todo_list in todo_lists %}
+                    <li><a href="/todo/{{ todo_list.id }}"> {{ todo_list }} </a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h1>회원가입 또는 로그인을 진행해주세요.</h1>
+        {% endif %}
     </div>
 </body>
 </html>
