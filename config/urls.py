@@ -40,13 +40,20 @@ def user_info(request, user_id):
     return render(request, 'user_info.html', {'user':user})
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', index),
+    path('admin/', admin.site.urls),
+
+    # author
     path('users/', user_list),
     path('users/<int:user_id>/', user_info),
-    path('todo/', views.todo_list, name='todo_list'),
-    path('todo/<int:todo_id>/', views.todo_info, name='todo_info'),
     path('accounts/', include("django.contrib.auth.urls")), # logout을 위한 라인
     path('login/', users_views.login, name='login'),
     path('signup/', users_views.signup, name='signup'),
+
+    # todo
+    path('todo/', views.todo_list, name='todo_list'),
+    path('todo/<int:todo_id>/', views.todo_info, name='todo_info'),
+    path('todo/create/', views.todo_create, name='todo_create'),
+    path('todo/<int:todo_id>/update/', views.todo_update, name='todo_update'),
+    path('todo/<int:todo_id>/delete/', views.todo_delete, name='todo_delete'),
 ]

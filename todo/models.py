@@ -1,7 +1,11 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 class ToDo(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE) # 참조와 다 같이 삭제 옵션
     title = models.CharField('할 일', max_length=50) # todo 제목
     description = models.TextField('설명') # todo 설명
     start_date = models.DateField('시작일') # todo 시작일

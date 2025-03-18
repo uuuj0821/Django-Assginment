@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background: #f0f0f0;
+        }
+        /* 버튼 스타일 */
+    .button-group {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .button-group:hover {
+        background-color: #0056b3;
+    }
+
+    #delete-button {
+        background-color: #ff1122;
+    }
+    #delete-button:hover {
+        background-color: #cc1122;
+    }
+    </style>
+    <div style="text-align: right">
+        <a href="{% url 'todo_list'%}">목록으로가기</a>
+    </div>
+
+    {# 수정, 삭제 버튼 #}
+    <div class="container">
+        <div style="display: flex; justify-content: space-between">
+            <h1>{{ info.title }}</h1>
+
+            {% if request.user == info.author %}
+                <div>
+                    <button class="button-group" onclick="location.href='{% url 'todo_update' info.pk %}'">수정하기</button>
+                    <form action="{% url 'todo_delete' info.pk %}" method="POST" style="display: inline">
+                        {% csrf_token %}
+                        <button class="button-group" id="delete-button">삭제하기</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    {# 수정, 삭제 버튼_end #}
+
+        {# 할일 정보 #}
+        <table>
+            {% for key, value in info.items %}
+                {% if key != 'title' and key != 'pk' and key != 'author'%}
+                    <tr>
+                        <th> {{ key }} </th>
+                        <td> {{ value }} </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    {# 할일 정보_end #}
+{% endblock %}

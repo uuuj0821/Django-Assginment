@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #eaeaea;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        li:hover {
+            background: #d4d4d4;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+                /* 버튼 스타일 */
+    .button-group {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .button-group:hover {
+        background-color: #0056b3;
+    }
+    </style>
+
+    <div class="container">
+        <h1>오늘의 할 일 목록</h1>
+
+        {# 할일 생성 #}
+        <p style="text-align: right">
+            <button class="button-group" onclick="location.href='{% url 'todo_create' %}'">생성하기</button>
+{#            <a href="{% url 'todo_create' %}">생성하기</a>#}
+        </p>
+        {# 할일 생성_end #}
+
+        {# 할일 목록 #}
+        <ul>
+            {% for todo_list in page_object %}
+                <li><a href="/todo/{{ todo_list.id }}"> {{ todo_list }} </a></li>
+            {% endfor %}
+        </ul>
+        {# 할일 목록_end #}
+
+        {# 블로그 글 검색 #}
+        <form method="get" style="margin-bottom: 10px; text-align: center; margin-bottom: 20px;">
+            <input name="q" type="text" placeholder="검색어를 입력하세요."
+                   value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
+            <button>검색</button>
+        </form>
+        {# 블로그 글 검색_end #}
+
+        {# 페이지네이션 #}
+        <div style="text-align: center">
+            {% if page_object.has_previous %}
+                <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&laquo; 첫번째</a>
+                <a href="?page=
+                        {{ page_object.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">이전</a>
+            {% endif %}
+
+            {# 이전페이지 중 ... 효과 주기 #}
+            {% if page_object.number|add:-2 > 1 %}
+                <a href="?page={{ page_object.number|add:-3 }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&hellip;</a>
+            {% endif %}
+
+            {% for i in page_object.paginator.page_range %}
+                {% if page_object.number == i %}
+                    <span style="font-weight: bold; color: red;">{{ i }}</span>
+                {% elif i > page_object.number|add:-3 and i < page_object.number|add:3 %}
+                    <a href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {# 다음페이지 중 ... 효과 주기 #}
+            {% if page_object.paginator.num_pages > page_object.number|add:2 %}
+                <a href="?page={{ page_object.number|add:3 }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&hellip;</a>
+            {% endif %}
+
+            {% if page_object.has_next %}
+                <a href="?page=
+                        {{ page_object.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">다음</a>
+                <a href="?page=
+                        {{ page_object.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">마지막
+                    &raquo;</a>
+            {% endif %}
+        </div>
+        {# 페이지네이션 코드_end #}
+
+    </div>
+{% endblock %}
