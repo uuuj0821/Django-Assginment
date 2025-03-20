@@ -20,7 +20,7 @@ def login(request):
 
     if form.is_valid():
         auth_login(request, form.get_user())
-        return redirect(reverse('todo_list'))
+        return redirect(reverse('todo:list'))
 
     context = {'form': form}
 

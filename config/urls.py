@@ -24,6 +24,7 @@ from users import views as users_views
 
 def index(request):
     return redirect('login')
+
 def user_list(request):
     user_index = list(fake_db.user_db.keys())
     print(user_index)
@@ -50,10 +51,13 @@ urlpatterns = [
     path('login/', users_views.login, name='login'),
     path('signup/', users_views.signup, name='signup'),
 
-    # todo
-    path('todo/', views.todo_list, name='todo_list'),
-    path('todo/<int:todo_id>/', views.todo_info, name='todo_info'),
-    path('todo/create/', views.todo_create, name='todo_create'),
-    path('todo/<int:todo_id>/update/', views.todo_update, name='todo_update'),
-    path('todo/<int:todo_id>/delete/', views.todo_delete, name='todo_delete'),
+    # fbv_todo
+    # path('todo/', views.todo_list, name='todo_list'),
+    # path('todo/<int:todo_id>/', views.todo_info, name='todo_info'),
+    # path('todo/create/', views.todo_create, name='todo_create'),
+    # path('todo/<int:todo_id>/update/', views.todo_update, name='todo_update'),
+    # path('todo/<int:todo_id>/delete/', views.todo_delete, name='todo_delete'),
+
+    # cbv & include
+    path('cbv/', include('todo.urls')),
 ]
