@@ -1,30 +1,40 @@
+{% load static %} {# from ~ import ~ 와 유사 #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 </head>
 <body>
-    <nav style="display: flex; justify-content: space-between; margin-bottom: 30px;">
-        <div>
-            <a style="font-size: 20px" href={% url 'todo:list' %}>Home</a>
-        </div>
+<nav class="d-flex justify-content-between py-2 px-4 bg-black text-white">
+    <div>
+        <a class="text-decoration-none text-white" href={% url 'todo:list' %}>Home</a>
+    </div>
+
+    <div style="text-align: right; font-size: 20px; display: flex; justify-content: space-between; background-color: green; color: white;">
         {% if request.user.is_authenticated %}
-            <div style="text-align: right; font-size: 20px; display: flex; justify-content: space-between; background-color: green; color: white;">
-                {{ request.user.username }}
-                <form action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                    <button style="border: 0; font-size: 20px; cursor: pointer; background-color: red; color: white;">Logout</button>
-                </form>
-            </div>
+            {{ request.user.username }}
+            <form action="{% url 'logout' %}" method="POST" class="d-inline">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-sm">로그아웃</button>
         {% else %}
-            <div style="display: flex; justify-content: right; font-size: 20px;">
-                <a href="{% url 'signup' %}" style="margin-right: 10px">SignUp</a>
-                <a href="{% url 'login' %}">Login</a>
-            </div>
+            <a class="btn btn-warning btn-sm" href="{% url 'signup' %}" style="margin-right: 10px">회원가입</a>
+            <a class="btn btn-info btn-sm" href="{% url 'login' %}">로그인</a>
         {% endif %}
-    </nav>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
     {% block content %}{% endblock %}
-    {% block js %}{% endblock %}
+</div>
+
+<footer>
+
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% block js %}{% endblock %}
 </body>
 </html>
