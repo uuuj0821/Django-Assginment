@@ -1,11 +1,34 @@
+from datetime import datetime
+
 from django import forms
+from django_summernote.widgets import SummernoteWidget
+
 from todo.models import ToDo, Comment
 
 
 class ToDoPostForm(forms.ModelForm):
     class Meta:
         model = ToDo
-        fields = ('title', 'description', 'start_date', 'end_date', 'is_completed')
+        fields = ('title', 'image', 'description', 'start_date', 'end_date', 'is_completed')
+        widgets = {
+            'description': SummernoteWidget(),
+            'title' : forms.TextInput(attrs={'class':'form-control'}),
+            'start_date' : forms.DateInput(attrs={'class':'form-control', 'type':datetime.date}),
+            'end_date' : forms.DateInput(attrs={'class':'form-control', 'type':datetime.date}),
+        }
+
+class ToDoUpdateForm(forms.ModelForm):
+    class Meta:
+        model = ToDo
+        fields = ('title', 'image', 'description', 'start_date', 'end_date', 'is_completed')
+        widgets = {
+            'description': SummernoteWidget(),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': datetime.date}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': datetime.date}),
+            'is_completed': forms.CheckboxInput(attrs={'class':'form-control'}),
+            'image': forms.FileInput(attrs={'class':'form-control'}),
+        }
 
 class CommentPostForm(forms.ModelForm):
     class Meta:

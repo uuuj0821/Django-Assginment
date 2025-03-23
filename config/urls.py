@@ -22,6 +22,9 @@ import fake_db
 from todo import views
 from users import views as users_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 def index(request):
     return redirect('login')
 
@@ -50,6 +53,7 @@ urlpatterns = [
     path('accounts/', include("django.contrib.auth.urls")), # logout을 위한 라인
     path('login/', users_views.login, name='login'),
     path('signup/', users_views.signup, name='signup'),
+    path('summernote/', include('django_summernote.urls')),
 
     # fbv_todo
     # path('todo/', views.todo_list, name='todo_list'),
@@ -61,3 +65,6 @@ urlpatterns = [
     # cbv & include
     path('cbv/', include('todo.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT )

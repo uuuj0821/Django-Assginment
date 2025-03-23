@@ -14,11 +14,14 @@
     {% for todo_list in object_list %}  {# cbv listview 사용 시 변수명 꼭 확인! 'object_list' #}
         <div class="my-1">
             <a href="{% url 'todo:info' todo_list.pk %}"
-               class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                {{ todo_list.title }}
-                {% if todo_list.comment_count >= 1 %}
-                    ({{ todo_list.comment_count }})
+               class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover row">
+                {% if todo_list.get_thumbnail_image_url %}
+                    <img src="{{ todo_list.get_thumbnail_image_url }}" alt="" class="col-2">
                 {% endif %}
+                {{ todo_list.title }}
+                    {% if todo_list.comment_count >= 1 %}
+                        ({{ todo_list.comment_count }})
+                    {% endif %}
             </a>
         </div>
     {% endfor %}

@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from todo.forms import CommentPostForm
+from todo.forms import CommentPostForm, ToDoPostForm
 from todo.models import ToDo, Comment
 
 
@@ -59,7 +59,8 @@ class ToDoDetailView(LoginRequiredMixin, ListView):
 class ToDoCreateView(LoginRequiredMixin, CreateView):
     model = ToDo
     template_name = 'todo/todo_form.html'
-    fields = ('title', 'description', 'start_date', 'end_date', 'is_completed')
+    # fields = ('title', 'description', 'start_date', 'end_date', 'is_completed')
+    form_class = ToDoPostForm
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -81,7 +82,8 @@ class ToDoCreateView(LoginRequiredMixin, CreateView):
 class ToDoUpdateView(LoginRequiredMixin, UpdateView):
     model = ToDo
     template_name = 'todo/todo_form.html'
-    fields = ('title', 'description', 'start_date', 'end_date', 'is_completed')
+    # fields = ('title', 'description', 'start_date', 'end_date', 'is_completed')
+    form_class = ToDoPostForm
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -95,6 +97,10 @@ class ToDoUpdateView(LoginRequiredMixin, UpdateView):
         context['sub_title'] = '수정'
         context['btn_name'] = '수정'
         return context
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
     # models.py의 get_absolute_url() 선언
     # def get_success_url(self):

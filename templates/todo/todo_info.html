@@ -89,13 +89,18 @@
             {% if key != 'title' and key != 'pk' and key != 'author' %}
                 <tr>
                     <th> {{ key }} </th>
-                    <td> {{ value }} </td>
+                    <td> {{ value | safe }} </td>
                 </tr>
             {% endif %}
         {% endfor %}
     </table>
     </div>
     {# 할일 정보_end #}
+
+    {# 이미지 #}
+    {% if todo.image %}
+        <img src="{{ todo.image.url }}" alt="" class="w-100">
+    {% endif %}
 
     <hr>
     {# 댓글 작성 #}
@@ -183,7 +188,7 @@
             });
         });
 
-        // ✅ 수정 취소 버튼 클릭 시 폼 닫기
+        // 수정 취소 버튼 클릭 시 폼 닫기
         document.querySelectorAll('.cancel-edit').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 const id = this.dataset.id;
